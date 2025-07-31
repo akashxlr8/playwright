@@ -6,7 +6,10 @@ Run this script to see Playwright in action with a visible browser window
 
 from playwright.sync_api import sync_playwright
 import time
-
+from dotenv import load_dotenv
+import os
+# Load environment variables from .env file
+load_dotenv()
 def run_github_login_demo():
     with sync_playwright() as p:
         # Launch browser in non-headless mode
@@ -26,11 +29,11 @@ def run_github_login_demo():
         
         # Create a new page
         page = context.new_page()
-        
+        site = os.getenv("site")
         try:
-            print("🚀 Opening GitHub login page...")
-            page.goto('https://github.com/login')
-            
+            print("🚀 Opening website login page...")
+            page.goto(site + '/login')
+
             # Wait for the page to load
             page.wait_for_load_state('networkidle')
             print("✅ Page loaded successfully!")
@@ -39,17 +42,21 @@ def run_github_login_demo():
             time.sleep(2)
             
             print("📝 Filling in the username field...")
-            page.get_by_label("Username or email address").fill("demo_username")
+            page.get_by_label("Username").fill(os.getenv("user"))
             
             time.sleep(1)  # Pause to see the action
             
             print("🔒 Filling in the password field...")
-            page.get_by_label("Password").fill("demo_password")
+            page.get_by_label("Password").fill(os.getenv("password"))
             
             time.sleep(2)  # Pause to see the filled form
             
             print("👀 Form filled! You can see the browser in action.")
-            print("⚠️  Note: We're not clicking submit to avoid failed login attempts.")
+            # print("⚠️  Note: We're not clicking submit to avoid failed login attempts.")
+
+            page.get_by_role("button", name="Login").click()
+
+
             
             # Keep the browser open for a few more seconds
             print("🕒 Keeping browser open for 5 more seconds...")
@@ -65,6 +72,6 @@ def run_github_login_demo():
             browser.close()
 
 if __name__ == "__main__":
-    print("🎭 Playwright GitHub Login Demo")
+    print("🎭 Playwright website Login Demo")
     print("=" * 40)
     run_github_login_demo()
