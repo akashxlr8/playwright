@@ -1,2 +1,5 @@
 
 playwright/.auth
+.venv/*
+.gitignore
+.env
