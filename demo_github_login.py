@@ -56,11 +56,42 @@ def run_github_login_demo():
 
             page.get_by_role("button", name="Login").click()
 
+            time.sleep(2)  # Wait for any potential redirects
+            
+            # Verify the login was successful by checking for a specific element
+            if page.get_by_role("button", name="Logout").is_visible():
+                print("✅ Login successful! Profile button is visible.")
+                
+                # Navigate to the new URL
+                compliance_url = site + "/compliance"
+                print(f"🚀 Navigating to {compliance_url}...")
+                page.goto(compliance_url)
+                page.wait_for_load_state('networkidle')
+                print("✅ Compliance page loaded successfully!")
 
+                # Type in the search space and click on first result
+                try:
+                    print("📝 Typing 'John doe' into the search space...")
+                    search_input = page.get_by_placeholder("Search Patient Name or Phone Number")
+                    search_input.fill("John doe")
+                    
+                    # Wait for dropdown results to appear
+                    time.sleep(2)
+                    
+                    # Click on the first result in the dropdown
+                    print("🖱️ Selecting the first item from dropdown...")
+                    first_result = page.get_by_role("tooltip").first
+                    first_result.click()
+                    print("✅ First search result selected!")
+                except Exception as e:
+                    print(f"❌ Could not find the search input with placeholder 'Search Patient Name or Phone Number'. Error: {e}")
+
+            else:
+                print("❌ Login verification failed. Could not find profile button.")
             
             # Keep the browser open for a few more seconds
-            print("🕒 Keeping browser open for 5 more seconds...")
-            time.sleep(5)
+            print("🕒 Keeping browser open for 10 more seconds to observe...")
+            time.sleep(10)
             
             print("✨ Demo completed!")
             
