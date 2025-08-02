@@ -86,8 +86,29 @@ def run_github_login_demo():
                     
                     # Wait for the page to load after selection
                     page.wait_for_load_state('networkidle')
-                    time.sleep(3)  # Allow time for any dynamic content to load
-                    
+                    time.sleep(2)
+
+                    try:
+                        print("🔎 Looking for 'BP' heading and its 'History' button...")
+                        # Locate the "BP" heading (assuming it's an h6, h5, or similar)
+                        bp_heading = page.locator("text=BP").first
+                        if bp_heading.is_visible():
+                            # Find the "History" button within the same section/card as "BP"
+                            # This assumes the button is near the heading in the DOM
+                            history_button = bp_heading.locator("..").locator("button:has-text('History')").first
+                            if not history_button.is_visible():
+                                # If not found, try searching a bit higher in the DOM
+                                history_button = bp_heading.locator("..").locator("..").locator("button:has-text('History')").first
+                            if history_button.is_visible():
+                                history_button.click()
+                                print("✅ Clicked the 'History' button inside the 'BP' section!")
+                            else:
+                                print("❌ Could not find the 'History' button near the 'BP' heading.")
+                        else:
+                            print("❌ Could not find the 'BP' heading.")
+                    except Exception as e:
+                        print(f"❌ Error while trying to click 'History' button in 'BP' section: {e}")
+
                     # Find and click the copy button near the "Unchecked Compliances Summary" field
                     try:
                         print("📊 Looking for 'Unchecked Compliances Summary' field...")
