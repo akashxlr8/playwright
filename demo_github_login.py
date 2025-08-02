@@ -102,6 +102,22 @@ def run_github_login_demo():
                             if history_button.is_visible():
                                 history_button.click()
                                 print("✅ Clicked the 'History' button inside the 'BP' section!")
+
+                                # Wait for the "BP History" dialog to appear
+                                try:
+                                    print("🕵️ Waiting for 'BP History' dialog to appear...")
+                                    page.wait_for_selector('text="BP History"', timeout=10000)
+                                    print("✅ 'BP History' dialog appeared!")
+
+                                    # Find the dialog container (assuming it's the parent of the title)
+                                    dialog = page.locator('text="BP History"').first.locator('..').locator('..')
+
+                                    # Find the first list item inside the dialog
+                                    first_list_item = dialog.locator("li").first
+                                    first_list_text = first_list_item.text_content()
+                                    print(f"📜 First BP History item: {first_list_text.strip() if first_list_text else '[Empty]'}")
+                                except Exception as e:
+                                    print(f"❌ Could not extract first BP History item: {e}")
                             else:
                                 print("❌ Could not find the 'History' button near the 'BP' heading.")
                         else:
