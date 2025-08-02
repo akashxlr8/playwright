@@ -125,36 +125,36 @@ def run_github_login_demo():
                     except Exception as e:
                         print(f"❌ Error while trying to click 'History' button in 'BP' section: {e}")
 
-                    # Find and click the copy button near the "Unchecked Compliances Summary" field
-                    try:
-                        print("📊 Looking for 'Unchecked Compliances Summary' field...")
-                        # Wait to ensure the page is loaded
-                        time.sleep(2)
+                    # # Find and click the copy button near the "Unchecked Compliances Summary" field
+                    # try:
+                    #     print("📊 Looking for 'Unchecked Compliances Summary' field...")
+                    #     # Wait to ensure the page is loaded
+                    #     time.sleep(2)
                         
-                        # First, try to find a section containing "Unchecked Compliances Summary" text
-                        page.wait_for_selector('text="Unchecked Compliances Summary"', timeout=10000)
-                        print("✅ Found the Unchecked Compliances Summary section")
+                    #     # First, try to find a section containing "Unchecked Compliances Summary" text
+                    #     page.wait_for_selector('text="Unchecked Compliances Summary"', timeout=10000)
+                    #     print("✅ Found the Unchecked Compliances Summary section")
                         
-                        # Try to find the copy button with the class you provided and click it
-                        copy_button = page.locator('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary.MuiIconButton-sizeMedium.css-175iuzg').first
+                    #     # Try to find the copy button with the class you provided and click it
+                    #     copy_button = page.locator('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary.MuiIconButton-sizeMedium.css-175iuzg').first
                         
-                        if copy_button.is_visible():
-                            print("✅ Found the copy button")
-                            copy_button.click()
-                            print("✅ Clicked the copy button - text copied to clipboard!")
-                            # Note: Text is now in clipboard but we can't access clipboard content directly with Playwright
+                    #     if copy_button.is_visible():
+                    #         print("✅ Found the copy button")
+                    #         copy_button.click()
+                    #         print("✅ Clicked the copy button - text copied to clipboard!")
+                    #         # Note: Text is now in clipboard but we can't access clipboard content directly with Playwright
                             
-                            # Try to get the actual text from nearby elements
-                            try:
-                                # Try to get the text from an element near the button
-                                summary_text = page.locator('text="Unchecked Compliances Summary"').locator('..').locator('..').text_content()
-                                print(f"📋 Unchecked Compliances Summary content: {summary_text}")
-                            except:
-                                print("⚠️ Copied to clipboard but couldn't extract text to display in console")
-                        else:
-                            print("⚠️ Copy button not visible")
-                    except Exception as e:
-                        print(f"❌ Could not find or interact with the 'Unchecked Compliances Summary' field. Error: {e}")
+                    #         # Try to get the actual text from nearby elements
+                    #         try:
+                    #             # Try to get the text from an element near the button
+                    #             summary_text = page.locator('text="Unchecked Compliances Summary"').locator('..').locator('..').text_content()
+                    #             print(f"📋 Unchecked Compliances Summary content: {summary_text}")
+                    #         except:
+                    #             print("⚠️ Copied to clipboard but couldn't extract text to display in console")
+                    #     else:
+                    #         print("⚠️ Copy button not visible")
+                    # except Exception as e:
+                    #     print(f"❌ Could not find or interact with the 'Unchecked Compliances Summary' field. Error: {e}")
                 except Exception as e:
                     print(f"❌ Could not find the search input with placeholder 'Search Patient Name or Phone Number'. Error: {e}")
 
